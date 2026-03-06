@@ -9,18 +9,19 @@ const app = express();
 
 app.use(express.json());
 
+// serve frontend
 app.use(express.static("public"));
 
 connectDB();
 
-app.get("/", (req, res) => {
-  res.send("E-commerce Catalog API Running");
-});
-
 app.use("/products", productRoutes);
 
-const PORT = 3000;
+// fallback route
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
